@@ -8,7 +8,8 @@ export const usetodoStore = create(persist((set) => ({
 
         const list = {
             title: item,
-            completed: false
+            completed: false,
+            qty: 1
         }
 
         set((state) => ({
@@ -25,20 +26,49 @@ export const usetodoStore = create(persist((set) => ({
         updatelist[completeindex].completed = !updatelist[completeindex].completed
 
         set((state) => ({
-            todoList:[...updatelist]
+            todoList: [...updatelist]
         }))
 
     },
 
 
     // delete 
-    todoDelete:(deleteindex) => {
+    todoDelete: (deleteindex) => {
         const todolist = usetodoStore.getState().todoList
 
-      const updatedlist =  todolist.filter((_,index) => index !== deleteindex)
+        const updatedlist = todolist.filter((_, index) => index !== deleteindex)
 
         set(() => ({
-            todoList:[...updatedlist]
+            todoList: [...updatedlist]
+        }))
+
+    },
+
+    // increase
+    increaseQty: (updateindex) => {
+        const todolist = usetodoStore.getState().todoList
+        const updatedlist = [...todolist]
+
+        updatedlist[updateindex].qty += 1
+
+        set(() => ({
+            todoList: [...updatedlist]
+        }))
+    },
+
+    // decrease
+    decreaseQty: (updateindex) => {
+        const todolist = usetodoStore.getState().todoList;
+        const updatedlist = [...todolist]
+
+        updatedlist[updateindex].qty -= 1
+
+        if (updatedlist[updateindex].qty < 1) {
+            updatedlist[updateindex].qty = 1
+        }
+
+        set(() => ({
+            todoList: [...updatedlist]
         }))
 
     }
