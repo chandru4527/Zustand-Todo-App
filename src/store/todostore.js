@@ -20,13 +20,10 @@ export const usetodoStore = create(persist((set) => ({
     // add complete
     addComplete: (completeindex) => {
 
-        const todolist = usetodoStore.getState().todoList
-        const updatelist = [...todolist]
-
-        updatelist[completeindex].completed = !updatelist[completeindex].completed
-
         set((state) => ({
-            todoList: [...updatelist]
+            todoList: state.todoList.map((item, index) =>
+                index === completeindex ? { ...item, completed: !item.completed } : item
+            )
         }))
 
     },
@@ -34,41 +31,31 @@ export const usetodoStore = create(persist((set) => ({
 
     // delete 
     todoDelete: (deleteindex) => {
-        const todolist = usetodoStore.getState().todoList
 
-        const updatedlist = todolist.filter((_, index) => index !== deleteindex)
-
-        set(() => ({
-            todoList: [...updatedlist]
+        set((state) => ({
+            todoList: state.todoList.filter((item, index) =>
+                index !== deleteindex)
         }))
 
     },
 
     // increase
     increaseQty: (updateindex) => {
-        const todolist = usetodoStore.getState().todoList
-        const updatedlist = [...todolist]
 
-        updatedlist[updateindex].qty += 1
-
-        set(() => ({
-            todoList: [...updatedlist]
+        set((state) => ({
+            todoList: state.todoList.map((item, index) =>
+                index === updateindex ? { ...item, qty: item.qty + 1 } : item
+            )
         }))
     },
 
     // decrease
     decreaseQty: (updateindex) => {
-        const todolist = usetodoStore.getState().todoList;
-        const updatedlist = [...todolist]
 
-        updatedlist[updateindex].qty -= 1
-
-        if (updatedlist[updateindex].qty < 1) {
-            updatedlist[updateindex].qty = 1
-        }
-
-        set(() => ({
-            todoList: [...updatedlist]
+        set((state) => ({
+            todoList: state.todoList.map((item, index) =>
+                index === updateindex ? { ...item, qty: Math.max(1, item.qty - 1) } : item
+            )
         }))
 
     }

@@ -20,6 +20,8 @@ export const Todo = () => {
     setList('')
   }
 
+  console.log(todoList)
+
   return (
     <>
       <section className='w-full min-h-screen p-2 flex items-center justify-center bg-linear-to-br from-blue-400 to-green-400'>
@@ -38,7 +40,7 @@ export const Todo = () => {
                   onChange={(e) => setList(e.target.value)}
                   type="text"
                   placeholder='Enter a Task'
-                  className='w-full border border-gray-500 rounded px-2 py-3 focus:outline-blue-500' />
+                  className='w-full border border-gray-500 rounded px-3 py-3 focus:outline-blue-500' />
               </div>
 
 
